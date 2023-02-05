@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { List } from '../components/List/List';
 import { getCharacter } from '../services/character';
 import style from 'styled-components';
@@ -32,25 +32,27 @@ export const Character = () => {
 	const [list, setList] = useState([]);
 	const [pages, setPages] = useState(0);
 	const [filter, setFilter] = useState({});
+
 	useEffect(() => {
-		if (!currentUser) navigate('/login');
+		if (!sessionStorage.getItem('currentUser')) navigate('/login');
 		getCharacterRequest();
 	}, []);
 
 	const openModal = (character) => setModalData({ data: character, show: true });
 	const closeModal = () => setModalData({ ...modalData, show: false });
-	const onPageChange = (page) => {
-		const newFilter = { ...filter, page };
-		setFilter(newFilter);
-		getCharacterRequest(newFilter);
-	};
 
 	const getCharacterRequest = async (filterParam) => {
 		const result = await getCharacter(filterParam);
 		if (result.status) {
 			setList(result.response.results);
-			setPages(result.response.info.pages);
+			if (pages !== result.response.info.pages) setPages(result.response.info.pages);
 		}
+	};
+
+	const onPageChange = (page) => {
+		const newFilter = { ...filter, page };
+		setFilter(newFilter);
+		getCharacterRequest(newFilter);
 	};
 	return (
 		<Container>

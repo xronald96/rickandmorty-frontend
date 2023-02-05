@@ -1,6 +1,7 @@
+import React from 'react';
 import Carousel from 'react-bootstrap/Carousel';
 
-export const CarrouselBoostraps = () => {
+export const CarrouselBoostraps = React.memo(() => {
 	return (
 		<Carousel style={{ height: '300px', overflow: 'hidden' }}>
 			<Carousel.Item>
@@ -43,4 +44,4 @@ export const CarrouselBoostraps = () => {
 			</Carousel.Item>
 		</Carousel>
 	);
-};
+});

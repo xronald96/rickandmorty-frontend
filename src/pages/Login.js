@@ -5,7 +5,7 @@ import Form from 'react-bootstrap/Form';
 import { loginRequest } from '../services/user';
 import style from 'styled-components';
 import { useNavigate } from 'react-router-dom';
-import { useDispatch } from "react-redux";
+import { useDispatch } from 'react-redux';
 import { updateCurrentUser } from '../redux/actions/user';
 
 const Container = style.div`
@@ -53,7 +53,11 @@ export const Login = () => {
 	const navigate = useNavigate();
 	const [validated, setValidated] = useState(false);
 	const [error, setError] = useState('');
-	const { register, handleSubmit, formState: {errors} } = useForm();
+	const {
+		register,
+		handleSubmit,
+		formState: { errors },
+	} = useForm();
 
 	const login = async (data) => {
 		setValidated(true);
@@ -61,8 +65,10 @@ export const Login = () => {
 			const result = await loginRequest(data);
 			if (result.status !== 200) setError(result?.error?.message);
 			else {
-				dispatch(updateCurrentUser(result.response))
-				navigate('/character')};
+				sessionStorage.setItem('currentUser', JSON.stringify(result.response));
+				dispatch(updateCurrentUser(result.response));
+				navigate('/character');
+			}
 		}
 	};
 

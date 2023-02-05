@@ -1,5 +1,5 @@
 import style from 'styled-components';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faGreaterThan, faLessThan } from '@fortawesome/free-solid-svg-icons';
 const PaginationContainer = style.div`
@@ -21,8 +21,9 @@ align-items: center;
 justify-content: center;
 font-weight: bold;
 `;
-export const PaginationPage = ({ pages, onPageChange }) => {
+export const PaginationPage = React.memo(({ pages, onPageChange }) => {
 	const [page, setPage] = useState(1);
+	console.log('PaginationPage')
 	const goFirst = () => {
 		onPageChange &&onPageChange(1);
 		setPage(1);
@@ -66,4 +67,4 @@ export const PaginationPage = ({ pages, onPageChange }) => {
 			</PaginationButtons>
 		</PaginationContainer>
 	);
-};
+});
